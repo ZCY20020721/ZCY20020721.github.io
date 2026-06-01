@@ -13,10 +13,10 @@ from transformers import CLIPProcessor, CLIPModel
 app = Flask(__name__)
 CORS(app)
 
-# ---- Load CLIP ----
-print("Loading CLIP model...")
-model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
-processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+# ---- Load CLIP (offline mode, use cached model) ----
+print("Loading CLIP model (offline)...")
+model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32", local_files_only=True)
+processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32", local_files_only=True)
 model.eval()
 print("CLIP model loaded.")
 
@@ -25,17 +25,19 @@ cards_path = os.path.join(os.path.dirname(__file__), "public", "cards.json")
 with open(cards_path, "r", encoding="utf-8") as f:
     cards = json.load(f)
 
-all_texts = []
+# Use English for CLIP, Russian for display
+all_texts_en = []
 card_meta = []
-for category, texts in cards.items():
-    for i, text in enumerate(texts):
-        all_texts.append(f"a photo of {text}")
-        card_meta.append((category, i, text))
+for category, items in cards.items():
+    for i, item in enumerate(items):
+        en_text = item["en"] if isinstance(item, dict) else item
+        ru_text = item["ru"] if isinstance(item, dict) else item
+        all_texts_en.append(en_text)
+        card_meta.append((category, i, ru_text))
 
-# Precompute text embeddings
-print(f"Encoding {len(all_texts)} card texts...")
+print(f"Encoding {len(all_texts_en)} card texts (EN for CLIP, RU for display)...")
 with torch.no_grad():
-    text_inputs = processor(text=all_texts, return_tensors="pt", padding=True, truncation=True, max_length=77)
+    text_inputs = processor(text=all_texts_en, return_tensors="pt", padding=True, truncation=True, max_length=77)
     text_embeds = model.get_text_features(**text_inputs)
     text_embeds = text_embeds / text_embeds.norm(dim=-1, keepdim=True)
 print("Text embeddings ready.")
@@ -60,14 +62,14 @@ def match():
         img_embed = img_embed / img_embed.norm(dim=-1, keepdim=True)
 
     sims = (img_embed @ text_embeds.T).squeeze(0)
-    top3 = sims.topk(min(3, len(all_texts)))
+    top3 = sims.topk(min(3, len(all_texts_en)))
 
     results = []
     for idx, score in zip(top3.indices, top3.values):
-        cat, _, text = card_meta[idx.item()]
+        cat, _, ru_text = card_meta[idx.item()]
         results.append({
             "category": cat,
-            "text": text,
+            "text": ru_text,
             "score": round(score.item(), 4),
         })
 
