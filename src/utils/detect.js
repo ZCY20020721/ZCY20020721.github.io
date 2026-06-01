@@ -90,6 +90,8 @@ export const detectImage = async (
 
   renderBoxes(ctx, boxes);
   input.delete();
+
+  return boxes;
 };
 
 /**

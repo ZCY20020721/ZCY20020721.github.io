@@ -3,12 +3,66 @@ import cv from "@techstark/opencv-js";
 import { Tensor, InferenceSession } from "onnxruntime-web";
 import Loader from "./components/loader";
 import { detectImage } from "./utils/detect";
+import { matchCards, cropObject } from "./utils/clip";
 import "./style/App.css";
+
+/** Bottom panel showing CLIP-matched cards */
+const CardPanel = ({ boxes, imageRef }) => {
+  const [matches, setMatches] = useState(null);
+  const [bestLabel, setBestLabel] = useState("");
+  const [loading, setLoading] = useState(false);
+  const lastImg = useRef(null);
+
+  if (imageRef.current && imageRef.current !== lastImg.current && boxes?.length) {
+    lastImg.current = imageRef.current;
+    const best = boxes.reduce((a, b) => a.probability > b.probability ? a : b);
+    setBestLabel(best.label);
+    setLoading(true);
+
+    try {
+      const crop = cropObject(imageRef.current, best.bounding);
+      matchCards(crop).then((res) => {
+        setMatches(res.matches);
+        setLoading(false);
+      }).catch(() => {
+        setMatches(null);
+        setLoading(false);
+      });
+    } catch {
+      setMatches(null);
+      setLoading(false);
+    }
+  }
+
+  if (!boxes?.length) return null;
+
+  return (
+    <div className="card-panel">
+      <h3>
+        {/*emoji*/}ﾟ Best matches for {bestLabel}
+        {loading && <span className="card-loading">...</span>}
+      </h3>
+      {matches ? (
+        matches.map((m, i) => (
+          <div key={i} className="card-item">
+            <span className="card-score">{(m.score * 100).toFixed(0)}%</span>
+            <span className="card-text">{m.text}</span>
+          </div>
+        ))
+      ) : (
+        <p className="card-err">
+          {loading ? "Contacting CLIP backend..." : "CLIP backend not available (start clip_server.py)"}
+        </p>
+      )}
+    </div>
+  );
+};
 
 const App = () => {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState({ text: "Loading OpenCV.js", progress: null });
   const [image, setImage] = useState(null);
+  const [boxes, setBoxes] = useState(null);
   const inputImage = useRef(null);
   const imageRef = useRef(null);
   const canvasRef = useRef(null);
@@ -65,8 +119,8 @@ const App = () => {
           src="#"
           alt=""
           style={{ display: image ? "block" : "none" }}
-          onLoad={() => {
-            detectImage(
+          onLoad={async () => {
+            const result = await detectImage(
               imageRef.current,
               canvasRef.current,
               session,
@@ -75,6 +129,7 @@ const App = () => {
               scoreThreshold,
               modelInputShape
             );
+            setBoxes(result || []);
           }}
         />
         <canvas
@@ -94,6 +149,7 @@ const App = () => {
           if (image) {
             URL.revokeObjectURL(image);
             setImage(null);
+            setBoxes(null);
           }
           const url = URL.createObjectURL(e.target.files[0]);
           imageRef.current.src = url;
@@ -110,11 +166,14 @@ const App = () => {
             imageRef.current.src = "#";
             URL.revokeObjectURL(image);
             setImage(null);
+            setBoxes(null);
           }}>
             Close image
           </button>
         )}
       </div>
+
+      <CardPanel boxes={boxes} imageRef={imageRef} />
     </div>
   );
 };
