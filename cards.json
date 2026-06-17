@@ -1,0 +1,44 @@
+{
+  "Ara": [
+    {"ru": "ярко-красный попугай ара на ветке дерева", "en": "bright red macaw parrot perched on a tree branch"},
+    {"ru": "сине-жёлтый ара, летящий в ясном небе", "en": "blue and yellow macaw flying in clear sky"},
+    {"ru": "крупный попугай ара с разноцветным оперением", "en": "large macaw parrot with multicolored plumage close up"},
+    {"ru": "красный ара в тропическом лесу", "en": "scarlet macaw sitting on branch in tropical forest"},
+    {"ru": "ара на фоне зелёной листвы джунглей", "en": "red macaw against green jungle foliage background"},
+    {"ru": "попугай ара с красно-сине-жёлтыми перьями", "en": "macaw parrot with red blue yellow feathers side view"},
+    {"ru": "сине-жёлтый ара в тропическом лесу", "en": "blue and gold macaw in amazon rainforest"},
+    {"ru": "гиацинтовый ара с тёмно-синим оперением", "en": "hyacinth macaw with deep blue plumage closeup portrait"},
+    {"ru": "большой попугай ара с мощным клювом", "en": "big macaw parrot with strong curved beak side profile"},
+    {"ru": "два разноцветных ара на ветке дерева", "en": "two colorful macaws sitting together on a tree branch"},
+    {"ru": "ара с поднятыми крыльями перед полётом", "en": "macaw with raised wings about to fly"},
+    {"ru": "красный ара, поедающий фрукт", "en": "scarlet macaw eating fruit in sunny weather"}
+  ],
+  "Kakadu": [
+    {"ru": "белый какаду с поднятым жёлтым хохолком", "en": "white cockatoo with raised yellow crest"},
+    {"ru": "белый какаду с хохолком на ветке", "en": "white cockatoo with raised crest on a branch"},
+    {"ru": "попугай какаду на фоне голубого неба", "en": "cockatoo parrot against blue sky background"},
+    {"ru": "желтохохлый какаду на дереве в Австралии", "en": "sulphur crested cockatoo sitting on tree in Australia"},
+    {"ru": "белоснежный какаду с чёрным клювом", "en": "pure white cockatoo close up with black beak"},
+    {"ru": "зонтичный какаду с чисто-белыми перьями", "en": "umbrella cockatoo with pure white feathers front view"},
+    {"ru": "розовый какаду на ветке эвкалипта", "en": "pink galah cockatoo on eucalyptus branch"},
+    {"ru": "какаду, поедающий семена из кормушки", "en": "cockatoo parrot eating seeds from wooden feeder"},
+    {"ru": "какаду с поднятым хохолком в профиль", "en": "cockatoo with raised crest side profile view"},
+    {"ru": "белый какаду на зелёной траве в парке", "en": "white cockatoo standing on green grass in park"},
+    {"ru": "розовый какаду гала с серыми крыльями", "en": "galah cockatoo with pink chest and grey wings"},
+    {"ru": "какаду Альба с белым оперением и тёмными глазами", "en": "alba cockatoo with white feathers and dark eyes"}
+  ],
+  "Kea": [
+    {"ru": "оливково-зелёный попугай кеа в горах", "en": "olive green kea parrot in New Zealand mountains"},
+    {"ru": "кеа на замшелом камне в альпийской среде", "en": "kea parrot sitting on mossy rock in alpine environment"},
+    {"ru": "новозеландский горный попугай кеа", "en": "New Zealand alpine mountain parrot kea"},
+    {"ru": "птица кеа с оливковыми перьями на фоне гор", "en": "kea bird with olive green feathers mountain background"},
+    {"ru": "кеа с оранжевыми перьями под крыльями", "en": "kea with orange underwings feathers spread"},
+    {"ru": "попугай кеа с изогнутым клювом и умными глазами", "en": "kea parrot close up curved beak intelligent eyes"},
+    {"ru": "дикий попугай кеа в естественной среде", "en": "wild kea parrot in natural habitat"},
+    {"ru": "кеа на замшелом грунте с любопытным взглядом", "en": "kea bird walking on mossy ground curious expression"},
+    {"ru": "любопытный кеа в горах", "en": "curious kea exploring surroundings in mountains"},
+    {"ru": "альпийский попугай кеа с оранжевым подкрыльем", "en": "alpine parrot kea with orange underwings visible in flight"},
+    {"ru": "кеа на фоне снежных горных вершин", "en": "kea against snowy mountain peaks background"},
+    {"ru": "попугай кеа на автомобиле в Новой Зеландии", "en": "kea parrot sitting on car in New Zealand"}
+  ]
+}
